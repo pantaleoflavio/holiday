@@ -7,6 +7,28 @@ const Holiday = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(0);
 
+  // func for choose new select value and next holiday
+  const nextHoliday = () => {
+    setSelected( prevValue => {
+      if (prevValue + 1 === data.data.length) {
+        return 0;
+      } else {
+        return prevValue + 1;
+      }
+    });
+  }
+
+  // func for choose prev holiday
+  const prevHoliday = () => {
+    setSelected( prevValue => {
+      if (prevValue - 1 < 0) {
+        return (data.data.length - 1);
+      } else {
+        return prevValue - 1;
+      }
+    });
+  }
+
   // func fetch data from api
   const getData = async () => {
     try {
@@ -25,7 +47,7 @@ const Holiday = () => {
     return <>
       {
         //ternary operator for to control number of holiday
-        data.data.length > 0 ? <SingleHoliday{...data.data[selected]}/> : <h4>No Vacanze</h4>
+        data.data.length > 0 ? <SingleHoliday{...data.data[selected]} next={nextHoliday} prev={prevHoliday}/> : <h4>No Vacanze</h4>
       }
     </>
   } else {
